@@ -8,16 +8,16 @@ CustomWeakFormPoissonNeumann::CustomWeakFormPoissonNeumann(std::string mat_al, H
                                                            Hermes2DFunction<double>* surf_src_term) : WeakForm<double>(1)
 {
   // Jacobian forms - volumetric.
-  add_matrix_form(new DefaultJacobianDiffusion<double>(0, 0, mat_al, lambda_al));
-  add_matrix_form(new DefaultJacobianDiffusion<double>(0, 0, mat_cu, lambda_cu));
+  add_matrix_form(new DefaultJacobianDiffusion<double>(0, 0, lambda_al, mat_al));
+  add_matrix_form(new DefaultJacobianDiffusion<double>(0, 0, lambda_cu, mat_cu));
 
   // Residual forms - volumetric.
-  add_vector_form(new DefaultResidualDiffusion<double>(0, mat_al, lambda_al));
-  add_vector_form(new DefaultResidualDiffusion<double>(0, mat_cu, lambda_cu));
-  add_vector_form(new DefaultVectorFormVol<double>(0, HERMES_ANY, vol_src_term));
+  add_vector_form(new DefaultResidualDiffusion<double>(0, lambda_al, mat_al));
+  add_vector_form(new DefaultResidualDiffusion<double>(0, lambda_cu, mat_cu));
+  add_vector_form(new DefaultVectorFormVol<double>(0, vol_src_term));
 
   // Residual forms - surface.
-  add_vector_form_surf(new DefaultVectorFormSurf<double>(0, bdy_heat_flux, surf_src_term));
+  add_vector_form_surf(new DefaultVectorFormSurf<double>(0, surf_src_term, bdy_heat_flux));
 };
 
 /* Custom non-constant Dirichlet condition */

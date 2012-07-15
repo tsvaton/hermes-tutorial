@@ -4,20 +4,20 @@ CustomWeakFormPoissonNewton::CustomWeakFormPoissonNewton(double lambda, double a
                                                          std::string bdy_heat_flux) : WeakForm<double>(1)
 {
   // Jacobian form - volumetric.
-  add_matrix_form(new WeakFormsH1::DefaultJacobianDiffusion<double>(0, 0, HERMES_ANY, new Hermes1DFunction<double>(lambda),
-                                                            HERMES_SYM, HERMES_AXISYM_Y));
+  add_matrix_form(new WeakFormsH1::DefaultJacobianDiffusion<double>(0, 0, new Hermes1DFunction<double>(lambda), HERMES_ANY, HERMES_SYM,
+                                                            HERMES_AXISYM_Y));
 
   // Jacobian form - surface.
-  add_matrix_form_surf(new WeakFormsH1::DefaultMatrixFormSurf<double>(0, 0, bdy_heat_flux, new Hermes2DFunction<double>(alpha),
+  add_matrix_form_surf(new WeakFormsH1::DefaultMatrixFormSurf<double>(0, 0, new Hermes2DFunction<double>(alpha), bdy_heat_flux,
                                                               HERMES_AXISYM_Y));
 
   // Residual forms - volumetric.
-  add_vector_form(new WeakFormsH1::DefaultResidualDiffusion<double>(0, HERMES_ANY, new Hermes1DFunction<double>(lambda),
+  add_vector_form(new WeakFormsH1::DefaultResidualDiffusion<double>(0, new Hermes1DFunction<double>(lambda), HERMES_ANY,
                                                             HERMES_AXISYM_Y));
 
   // Residual form - surface.
-  add_vector_form_surf(new WeakFormsH1::DefaultResidualSurf<double>(0, bdy_heat_flux, new Hermes2DFunction<double>(alpha),
+  add_vector_form_surf(new WeakFormsH1::DefaultResidualSurf<double>(0, new Hermes2DFunction<double>(alpha), bdy_heat_flux, 
                                                             HERMES_AXISYM_Y));
-  add_vector_form_surf(new WeakFormsH1::DefaultVectorFormSurf<double>(0, bdy_heat_flux, new Hermes2DFunction<double>(-alpha * T0),
+  add_vector_form_surf(new WeakFormsH1::DefaultVectorFormSurf<double>(0, new Hermes2DFunction<double>(-alpha * T0), bdy_heat_flux, 
                                                               HERMES_AXISYM_Y));
 };

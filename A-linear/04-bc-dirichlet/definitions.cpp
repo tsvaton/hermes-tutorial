@@ -7,13 +7,13 @@ CustomWeakFormPoissonDirichlet::CustomWeakFormPoissonDirichlet(std::string mat_a
                                                                double vol_heat_src) : WeakForm<double>(1)
 {
   // Jacobian forms - volumetric.
-  add_matrix_form(new DefaultJacobianDiffusion<double>(0, 0, mat_al, new Hermes1DFunction<double>(lambda_al)));
-  add_matrix_form(new DefaultJacobianDiffusion<double>(0, 0, mat_cu, new Hermes1DFunction<double>(lambda_cu)));
+  add_matrix_form(new DefaultJacobianDiffusion<double>(0, 0, new Hermes1DFunction<double>(lambda_al), mat_al));
+  add_matrix_form(new DefaultJacobianDiffusion<double>(0, 0, new Hermes1DFunction<double>(lambda_cu), mat_cu));
 
   // Residual forms - volumetric.
-  add_vector_form(new DefaultResidualDiffusion<double>(0, mat_al, new Hermes1DFunction<double>(lambda_al)));
-  add_vector_form(new DefaultResidualDiffusion<double>(0, mat_cu, new Hermes1DFunction<double>(lambda_cu)));
-  add_vector_form(new DefaultVectorFormVol<double>(0, HERMES_ANY, new Hermes2DFunction<double>(-vol_heat_src)));
+  add_vector_form(new DefaultResidualDiffusion<double>(0, new Hermes1DFunction<double>(lambda_al), mat_al));
+  add_vector_form(new DefaultResidualDiffusion<double>(0, new Hermes1DFunction<double>(lambda_cu), mat_cu));
+  add_vector_form(new DefaultVectorFormVol<double>(0, new Hermes2DFunction<double>(-vol_heat_src)));
 };
 
 /* Custom non-constant Dirichlet condition */
