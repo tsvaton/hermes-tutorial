@@ -6,22 +6,22 @@ CustomWeakFormHeatRK1::CustomWeakFormHeatRK1(std::string bdy_air, double alpha, 
 {
   /* Jacobian */
   // Contribution of the time derivative term.
-  add_matrix_form(new DefaultMatrixFormVol<double>(0, 0, HERMES_ANY, new Hermes2DFunction<double>(1.0 / time_step)));
+  add_matrix_form(new DefaultMatrixFormVol<double>(0, 0, new Hermes2DFunction<double>(1.0 / time_step)));
   // Contribution of the diffusion term.
-  add_matrix_form(new DefaultJacobianDiffusion<double>(0, 0, HERMES_ANY, new Hermes1DFunction<double>(lambda / (rho * heatcap))));
+  add_matrix_form(new DefaultJacobianDiffusion<double>(0, 0, new Hermes1DFunction<double>(lambda / (rho * heatcap))));
   // Contribution of the Newton boundary condition.
-  add_matrix_form_surf(new DefaultMatrixFormSurf<double>(0, 0, bdy_air, new Hermes2DFunction<double>(alpha / (rho * heatcap))));
+  add_matrix_form_surf(new DefaultMatrixFormSurf<double>(0, 0, new Hermes2DFunction<double>(alpha / (rho * heatcap)), bdy_air));
 
   /* Residual */
   // Contribution of the time derivative term.
-  add_vector_form(new DefaultResidualVol<double>(0, HERMES_ANY, new Hermes2DFunction<double>(1.0 / time_step)));
+  add_vector_form(new DefaultResidualVol<double>(0, new Hermes2DFunction<double>(1.0 / time_step)));
   // Contribution of the diffusion term.
-  add_vector_form(new DefaultResidualDiffusion<double>(0, HERMES_ANY, new Hermes1DFunction<double>(lambda / (rho * heatcap))));
+  add_vector_form(new DefaultResidualDiffusion<double>(0, new Hermes1DFunction<double>(lambda / (rho * heatcap))));
   CustomVectorFormVol* vec_form_vol = new CustomVectorFormVol(0, time_step);
   vec_form_vol->ext.push_back(prev_time_sln);
   add_vector_form(vec_form_vol);
   // Contribution of the Newton boundary condition.
-  add_vector_form_surf(new DefaultResidualSurf<double>(0, bdy_air, new Hermes2DFunction<double>(alpha / (rho * heatcap))));
+  add_vector_form_surf(new DefaultResidualSurf<double>(0, new Hermes2DFunction<double>(alpha / (rho * heatcap)), bdy_air));
   // Contribution of the Newton boundary condition.
   add_vector_form_surf(new CustomVectorFormSurf(0, bdy_air, alpha, rho, heatcap,
                        time_step, current_time_ptr, temp_init, t_final));
