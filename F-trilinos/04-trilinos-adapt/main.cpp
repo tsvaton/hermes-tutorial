@@ -118,7 +118,7 @@ int main(int argc, char* argv[])
   CustomFunction f(slope);
 
   // Initialize the weak formulation.
-  WeakFormsH1::DefaultWeakFormPoisson<double> wf(HERMES_ANY, new Hermes1DFunction<double>(1.0), &f);
+  WeakFormsH1::DefaultWeakFormPoisson<double> wf(new Hermes1DFunction<double>(1.0), &f);
   
   // Initialize boundary conditions
   DefaultEssentialBCNonConst<double> bc_essential("Bdy", &exact);

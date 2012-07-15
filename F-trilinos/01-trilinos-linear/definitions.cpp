@@ -26,7 +26,7 @@ CustomWeakFormPoisson::CustomWeakFormPoisson(bool is_matfree) : WeakForm<double>
 
   // Residual.
   add_vector_form(new WeakFormsH1::DefaultResidualDiffusion<double>(0));
-  add_vector_form(new WeakFormsH1::DefaultVectorFormVol<double>(0, HERMES_ANY, new Hermes2DFunction<double>(4.0)));
+  add_vector_form(new WeakFormsH1::DefaultVectorFormVol<double>(0, new Hermes2DFunction<double>(4.0)));
 }
 
 
