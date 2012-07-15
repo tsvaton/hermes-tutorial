@@ -200,8 +200,8 @@ CustomWeakForm::CustomWeakForm(CustomRightHandSide1* g1, CustomRightHandSide2* g
   // Jacobian.
   add_matrix_form(new WeakFormsH1::DefaultJacobianDiffusion<double>(0, 0, new Hermes1DFunction<double>(g1->d_u * g1->d_u)));
   add_matrix_form(new WeakFormsH1::DefaultMatrixFormVol<double>(0, 0, new Hermes2DFunction<double>(-1.0)));
-  add_matrix_form(new WeakFormsH1::DefaultMatrixFormVol<double>(0, 1, new Hermes2DFunction<double>(g1->sigma), HERMES_NONSYM));
-  add_matrix_form(new WeakFormsH1::DefaultMatrixFormVol<double>(1, 0, new Hermes2DFunction<double>(-1.0), HERMES_NONSYM));
+  add_matrix_form(new WeakFormsH1::DefaultMatrixFormVol<double>(0, 1, new Hermes2DFunction<double>(g1->sigma), HERMES_ANY, HERMES_NONSYM));
+  add_matrix_form(new WeakFormsH1::DefaultMatrixFormVol<double>(1, 0, new Hermes2DFunction<double>(-1.0), HERMES_ANY, HERMES_NONSYM));
   add_matrix_form(new WeakFormsH1::DefaultJacobianDiffusion<double>(1, 1, new Hermes1DFunction<double>(g2->d_v * g2->d_v)));
   add_matrix_form(new WeakFormsH1::DefaultMatrixFormVol<double>(1, 1, new Hermes2DFunction<double>(1.0)));
 
