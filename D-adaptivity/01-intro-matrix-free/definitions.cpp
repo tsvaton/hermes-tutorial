@@ -6,11 +6,11 @@ CustomWeakFormPoisson::CustomWeakFormPoisson(const std::string& mat_motor, doubl
   this->is_matfree = is_matfree;
 
   // Jacobian.
-  add_matrix_form(new WeakFormsH1::DefaultJacobianDiffusion<double>(0, 0, mat_motor, new Hermes1DFunction<double>(eps_motor)));
-  add_matrix_form(new WeakFormsH1::DefaultJacobianDiffusion<double>(0, 0, mat_air, new Hermes1DFunction<double>(eps_air)));
+  add_matrix_form(new WeakFormsH1::DefaultJacobianDiffusion<double>(0, 0, new Hermes1DFunction<double>(eps_motor), mat_motor));
+  add_matrix_form(new WeakFormsH1::DefaultJacobianDiffusion<double>(0, 0, new Hermes1DFunction<double>(eps_air), mat_air));
 
   // Residual.
-  add_vector_form(new WeakFormsH1::DefaultResidualDiffusion<double>(0, mat_motor, new Hermes1DFunction<double>(eps_motor)));
-  add_vector_form(new WeakFormsH1::DefaultResidualDiffusion<double>(0, mat_air, new Hermes1DFunction<double>(eps_air)));
+  add_vector_form(new WeakFormsH1::DefaultResidualDiffusion<double>(0, new Hermes1DFunction<double>(eps_motor), mat_motor));
+  add_vector_form(new WeakFormsH1::DefaultResidualDiffusion<double>(0, new Hermes1DFunction<double>(eps_air), mat_air));
 }
 
