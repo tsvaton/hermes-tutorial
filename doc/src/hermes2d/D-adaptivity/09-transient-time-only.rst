@@ -4,7 +4,7 @@ Transient Problems II - Adaptivity in Time (09-transient-time-only)
 Model problem
 ~~~~~~~~~~~~~
 
-This example is analogous to example "P04-adaptivity/07-transient-space-only" except that 
+This example is analogous to example "D-adaptivity/07-transient-space-only" except that 
 a fixed mesh is used and only the time stepping is adaptive. An arbitrary 
 embedded Runge-Kutta method can be used. By embedded we mean that the 
 Butcher's table contains two B rows. The two B rows are used to calculate 

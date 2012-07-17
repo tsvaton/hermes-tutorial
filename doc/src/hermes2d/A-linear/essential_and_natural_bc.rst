@@ -58,7 +58,7 @@ Typical usage is as follows::
     DefaultEssentialBCNonConst<double> bc_essential("Bdy", &exact);
     EssentialBCs<double> bcs(&bc_essential);
 
-This technique is used in the tutorial example P01/07-general and in several 
+This technique is used in the tutorial example A-linear/07-general and in several 
 benchmarks that are part of the repository hermes-examples.
 
 Custom essential boundary conditions

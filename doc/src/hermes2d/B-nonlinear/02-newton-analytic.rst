@@ -123,4 +123,4 @@ in example 01-picard::
 Sample results
 ~~~~~~~~~~~~~~
 
-The resulting approximation is the same as in example P02/01-picard. 
+The resulting approximation is the same as in example B-nonlinear/01-picard. 

@@ -6,7 +6,7 @@ Finite Element Space (02-space)
 
 .. only:: latex
 
-    `Tutorial Video <http://hpfem.org/hermes/doc/src/hermes2d/P01-linear/01-mesh/videos.html#p01-linear02-space-tutorial>`_. 
+    `Tutorial Video <http://hpfem.org/hermes/doc/src/hermes2d/A-linear/01-mesh/videos.html#p01-linear02-space-tutorial>`_. 
 
 Hermes follows the mathematical concept of FEM closely -- after reading a mesh,
 the user has to create a finite element space on it.

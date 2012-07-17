@@ -6,7 +6,7 @@ Finite Element Mesh (01-mesh)
 
 .. only:: latex
 
-    `Tutorial Video <http://hpfem.org/hermes/doc/src/hermes2d/P01-linear/01-mesh/videos.html#>`_. 
+    `Tutorial Video <http://hpfem.org/hermes/doc/src/hermes2d/A-linear/01-mesh/videos.html#>`_. 
 
 Every finite element computation starts with partitioning the domain
 into a finite element mesh. Hermes admits (possibly curvilinear) triangles and 
@@ -156,7 +156,7 @@ class is a great help for this.
 
 As a ''Hello world'' example, let us load the mesh we have just created, and display it in a window. 
 Every main.cpp file in the git repository contains lots of comments and instructions. Skipping those, 
-the `main.cpp <http://git.hpfem.org/hermes.git/blob/HEAD:/hermes2d/tutorial/P01-linear/01-mesh/main.cpp>`_ 
+the `main.cpp <http://git.hpfem.org/hermes.git/blob/HEAD:/hermes2d/tutorial/A-linear/01-mesh/main.cpp>`_ 
 file for this example begins with creating an instance of the class Mesh. In order to load
 the mesh file, you have to create a mesh loader class (in our case that is ``H2DReader``) and
 call the method ``load()``::

@@ -6,7 +6,7 @@ Model problem
 
 Showing a nonlinear time-dependent problem is not really necessary since 
 linear and nonlinear problems are treated in the same way. But let us show one anyway.
-Our model problem will be a time-dependent version of the example used in part P02:
+Our model problem will be a time-dependent version of the example used in Section B-nonlinear:
 
 .. math::
 

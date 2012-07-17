@@ -1,7 +1,7 @@
 Using Arbitrary Runge-Kutta Methods (02-runge-kutta)
 ----------------------------------------------------
 
-This example solves the same model problem as the example P03/01-implicit-euler but it shows how arbitrary 
+This example solves the same model problem as the example C-transient/01-implicit-euler but it shows how arbitrary 
 Runge-Kutta methods can be used for time stepping. Let us begin with a brief introduction to the Runge-Kutta 
 methods and Butcher's tables before we explain implementation details.
 
@@ -87,7 +87,7 @@ The temporal derivative is skipped, and weak formulation is only done for the ri
      F(T) = - \int_{\Omega} \frac{\lambda}{c \varrho} \nabla T\cdot \nabla v
             + \int_{\Gamma_{air}} \frac{\alpha \lambda}{c \varrho} (T_{ext}(t) - T)v.
 
-This approach is very different from the previous example P03/01-implicit-euler
+This approach is very different from the previous example C-transient/01-implicit-euler
 where the discretization of the time derivative term was hardwired into the weak formulation. 
 
 The function $F$ above is the stationary residual of the equation (i.e., the weak form of the right-hand side).

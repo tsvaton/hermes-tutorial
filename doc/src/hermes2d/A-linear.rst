@@ -16,18 +16,18 @@ axisymmetric 3D problems.
 .. toctree::
    :maxdepth: 2
 
-   P01-linear/01-mesh   
-   P01-linear/02-space
-   P01-linear/03-poisson
-   P01-linear/essential_and_natural_bc
-   P01-linear/04-bc-dirichlet
-   P01-linear/05-bc-neumann
-   P01-linear/06-bc-newton
-   P01-linear/quadrature
-   P01-linear/07-general
-   P01-linear/08-system
-   P01-linear/filters
-   P01-linear/09-axisym
+   A-linear/01-mesh   
+   A-linear/02-space
+   A-linear/03-poisson
+   A-linear/essential_and_natural_bc
+   A-linear/04-bc-dirichlet
+   A-linear/05-bc-neumann
+   A-linear/06-bc-newton
+   A-linear/quadrature
+   A-linear/07-general
+   A-linear/08-system
+   A-linear/filters
+   A-linear/09-axisym
 
 
 

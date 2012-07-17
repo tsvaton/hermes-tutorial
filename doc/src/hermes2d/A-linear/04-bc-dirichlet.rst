@@ -1,7 +1,7 @@
 Nonconstant Dirichlet BC (04-bc-dirichlet)
 ------------------------------------------
 
-Let us keep the equation from the previous example P01/03-poisson,
+Let us keep the equation from the previous example A-linear/03-poisson,
 
 .. math::
     :label: poisson40

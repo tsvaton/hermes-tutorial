@@ -27,7 +27,7 @@ on the "Outer" boundary. Here $C_{flux}$ is a constant prescribed heat flux valu
 Recall that $C_{flux} = 0$ means a perfectly insulated (adiabatic) wall.
 
 On the boundary parts "Bottom", "Left" and "Inner" we keep
-the nonconstant Dirichlet condition from example P01/04-bc-dirichlet:
+the nonconstant Dirichlet condition from example A-linear/04-bc-dirichlet:
 
 .. math::
          u(x, y) = Ax + By + C.

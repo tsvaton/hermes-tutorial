@@ -4,7 +4,7 @@ Transient Problems I - Adaptivity in Space (08-transient-space-only)
 Model problem
 ~~~~~~~~~~~~~
 
-This example is derived from example "P03-timedep/03-nonlinear"
+This example is derived from example "C-transient/03-nonlinear"
 and it shows how automatic adaptivity in space can be combined with 
 arbitrary Runge-Kutta methods in time. The example uses fixed time 
 step size. 

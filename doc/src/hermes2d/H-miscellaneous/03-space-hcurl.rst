@@ -1,7 +1,7 @@
 Space H(curl) (03-space-hcurl)
 ------------------------------
 
-In the tutorial example "P01-linear/02-space" we first saw how a finite element space over a mesh is created. That was an H1 space suitable for continuous approximations. Another widely used Sobolev space, H(curl), is typically present in Maxwell's problems of electromagnetics. H(curl) approximations are discontinuous, elementwise polynomial vector fields that behave like gradients of H1 functions. Recall that in electrostatics $E = - \nabla \varphi.$ In particular, H(curl) functions have continuous tangential components along all mesh edges. For the application of the H(curl) space check examples related to Maxwell's equations in the previous sections. Below is a simple code that shows how to set up an H(curl) space and visualize its finite element basis functions:
+In the tutorial example "A-linear/02-space" we first saw how a finite element space over a mesh is created. That was an H1 space suitable for continuous approximations. Another widely used Sobolev space, H(curl), is typically present in Maxwell's problems of electromagnetics. H(curl) approximations are discontinuous, elementwise polynomial vector fields that behave like gradients of H1 functions. Recall that in electrostatics $E = - \nabla \varphi.$ In particular, H(curl) functions have continuous tangential components along all mesh edges. For the application of the H(curl) space check examples related to Maxwell's equations in the previous sections. Below is a simple code that shows how to set up an H(curl) space and visualize its finite element basis functions:
 
 ::
 

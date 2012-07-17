@@ -6,7 +6,7 @@ Poisson Equation (03-poisson)
 
 .. only:: latex
 
-    `Tutorial Video <http://hpfem.org/hermes/doc/src/hermes2d/P01-linear/01-mesh/videos.html#p01-linear-03-poisson-tutorial>`_. 
+    `Tutorial Video <http://hpfem.org/hermes/doc/src/hermes2d/A-linear/01-mesh/videos.html#p01-linear-03-poisson-tutorial>`_. 
 
 This example shows how to solve a simple PDE that describes stationary 
 heat transfer in an object that is heated by constant volumetric 
@@ -105,7 +105,7 @@ The reader does not have to worry about the word "Jacobian" here since for linea
 problems it is the same as "stiffness matrix". Simply forget from the left-hand side
 of the weak formulation :eq:`poissonweak01b` all expressions that do not contain $u$. 
 A detailed explanation of the Newton's method for nonlinear problems will be provided 
-at the beginning of the tutorial part P02.
+at the beginning of the tutorial Section B-nonlinear.
 
 The residual weak form is the entire left-hand side of :eq:`poissonweak01b` where 
 $u$ is now the approximate solution (not a basis function as above):
@@ -199,7 +199,7 @@ arbitrary nonlinearities::
     class CustomLanbdaCu<Scalar> : public Hermes1DFunction<Scalar>
     ...
 
-In the rest of part P01 we will focus on linear problems.
+In the rest of Section A we will focus on linear problems.
 
 Default Jacobian for the diffusion operator
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -335,7 +335,7 @@ Performing initial mesh refinements
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 A number of initial refinement operations can be done as 
-explained in example P01/01-mesh. In this case we just 
+explained in example A-linear/01-mesh. In this case we just 
 perform optional uniform mesh refinements::
 
     // Perform initial mesh refinements (optional).

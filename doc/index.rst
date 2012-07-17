@@ -22,13 +22,13 @@ Solving 2D Problems
 .. toctree::
     :maxdepth: 1
 
-    src/hermes2d/P01-linear
-    src/hermes2d/P02-nonlinear
-    src/hermes2d/P03-transient
-    src/hermes2d/P04-adaptivity
-    src/hermes2d/P06-fvm-and-dg
-    src/hermes2d/P07-trilinos
-    src/hermes2d/P08-miscellaneous
+    src/hermes2d/A-linear
+    src/hermes2d/B-nonlinear
+    src/hermes2d/C-transient
+    src/hermes2d/D-adaptivity
+    src/hermes2d/E-fvm-and-dg
+    src/hermes2d/F-trilinos
+    src/hermes2d/G-miscellaneous
 
 Solving 1D Problems
 -------------------

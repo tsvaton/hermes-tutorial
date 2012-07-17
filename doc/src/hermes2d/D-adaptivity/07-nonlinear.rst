@@ -1,7 +1,7 @@
 Newton's Method and Adaptivity (07-nonlinear)
 ---------------------------------------------
 
-In this example we use the nonlinear model problem from example "P02-nonlinear/02-newton-spline",
+In this example we use the nonlinear model problem from example "B-nonlinear/02-newton-spline",
 
 .. math::
 
