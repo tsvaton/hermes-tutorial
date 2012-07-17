@@ -70,14 +70,17 @@ project(hermes_tutorial)
   # Adaptivity.
   add_subdirectory(D-adaptivity)
 
+  # Eigenproblems.
+  #add_subdirectory(E-eigenproblems)
+
   # FVM and DG.
-  add_subdirectory(E-fvm-and-dg)
+  add_subdirectory(F-fvm-and-dg)
 
   # Using Trilinos.
   if(WITH_TRILINOS)
-    add_subdirectory(F-trilinos)
+    add_subdirectory(G-trilinos)
   endif(WITH_TRILINOS)
 
   # Miscellaneous techniques.
-  add_subdirectory(G-miscellaneous)
+  add_subdirectory(H-miscellaneous)
 
