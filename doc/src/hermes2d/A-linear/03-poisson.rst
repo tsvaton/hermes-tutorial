@@ -126,13 +126,13 @@ This is the constructor of the corresponding weak formulation in Hermes:
 						 Hermes2DFunction<double>* src_term) : WeakForm<double>(1)
     {
       // Jacobian forms.
-      add_matrix_form(new DefaultJacobianDiffusion<double>(0, 0, mat_al, lambda_al));
-      add_matrix_form(new DefaultJacobianDiffusion<double>(0, 0, mat_cu, lambda_cu));
+      add_matrix_form(new DefaultJacobianDiffusion<double>(0, 0, lambda_al, mat_al));
+      add_matrix_form(new DefaultJacobianDiffusion<double>(0, 0, lambda_cu, mat_cu));
 
       // Residual forms.
-      add_vector_form(new DefaultResidualDiffusion<double>(0, mat_al, lambda_al));
-      add_vector_form(new DefaultResidualDiffusion<double>(0, mat_cu, lambda_cu));
-      add_vector_form(new DefaultVectorFormVol<double>(0, HERMES_ANY, src_term));
+      add_vector_form(new DefaultResidualDiffusion<double>(0, lambda_al, mat_al));
+      add_vector_form(new DefaultResidualDiffusion<double>(0, lambda_cu, mat_cu));
+      add_vector_form(new DefaultVectorFormVol<double>(0, src_term));
     };
 
 .. latexcode::
@@ -144,18 +144,14 @@ This is the constructor of the corresponding weak formulation in Hermes:
                            Hermes2DFunction<double>* src_term) : WeakForm<double>(1)
     {
       // Jacobian forms.
-      add_matrix_form(new DefaultJacobianDiffusion<double>(0, 0, mat_al, lambda_al));
-      add_matrix_form(new DefaultJacobianDiffusion<double>(0, 0, mat_cu, lambda_cu));
+      add_matrix_form(new DefaultJacobianDiffusion<double>(0, 0, lambda_al, mat_al));
+      add_matrix_form(new DefaultJacobianDiffusion<double>(0, 0, lambda_cu, mat_cu));
 
       // Residual forms.
-      add_vector_form(new DefaultResidualDiffusion<double>(0, mat_al, lambda_al));
-      add_vector_form(new DefaultResidualDiffusion<double>(0, mat_cu, lambda_cu));
-      add_vector_form(new DefaultVectorFormVol<double>(0, HERMES_ANY, src_term));
+      add_vector_form(new DefaultResidualDiffusion<double>(0, lambda_al, mat_al));
+      add_vector_form(new DefaultResidualDiffusion<double>(0, lambda_cu, mat_cu));
+      add_vector_form(new DefaultVectorFormVol<double>(0, src_term));
     };
-
-
-Here HERMES_ANY means that the volumetric vector form will be assigned to all material
-markers.
 
 For constant LAMBDA_AL and LAMBDA_CU, the form is instantiated as follows:
 
@@ -173,10 +169,7 @@ For constant LAMBDA_AL and LAMBDA_CU, the form is instantiated as follows:
                              "Copper", new Hermes1DFunction<double>(LAMBDA_CU), 
                              new Hermes2DFunction<double>(-VOLUME_HEAT_SRC));
 
-Once a linear version of a problem works, it is very easy to extend it to a nonlinear case.
-For example, to replace the constants with cubic splines, one just needs to do
-
-::
+To replace the constants with cubic splines::
 
     CubicSpline LAMBDA_AL(...);
     CubicSpline LAMBDA_CU(...);
@@ -201,15 +194,23 @@ arbitrary nonlinearities::
 
 In the rest of Section A we will focus on linear problems.
 
+Using default weak forms and defining custom ones
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Hermes provides default weak forms for many common PDE operators including Laplace, Poisson,
+Diffusion, Advection, Elasticity, CurlCurl, Neutronics, etc. These are great for 
+getting started and to solve simpler models. For advanced models that require nonstandard 
+special features, the user can define custom forms. The object-oriented approach of Hermes 
+makes it possible to define virtually any forms. This example is formulated completely
+in the language of default weak forms. Definition of custom forms will be discussed at the 
+end of Section A.
+
 Default Jacobian for the diffusion operator
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Hermes provides default weak forms for many common PDE operators. 
-To begin with, the line 
+To begin with, the line::
 
-::
-
-    add_matrix_form(new DefaultJacobianDiffusion<double>(0, 0, marker_al, lambda_al));
+    add_matrix_form(new DefaultJacobianDiffusion<double>(0, 0, lambda_al, marker_al));
 
 adds to the Jacobian weak form the integral
 
@@ -221,27 +222,27 @@ where $u$ is a basis function and $v$ a test function.
 
 It has the following constructors::
 
-    DefaultJacobianDiffusion(int i = 0, int j = 0, std::string area = HERMES_ANY, 
-                             Hermes1DFunction<Scalar>* coeff = HERMES_ONE,
+    DefaultJacobianDiffusion(int i = 0, int j = 0, Hermes1DFunction<Scalar>* coeff = HERMES_ONE,
+                             std::string area = HERMES_ANY, 
                              SymFlag sym = HERMES_NONSYM, GeomType gt = HERMES_PLANAR);
 
 and
 ::
 
-    DefaultJacobianDiffusion(int i = 0, int j = 0, Hermes::vector<std::string> areas,  
-                             Hermes1DFunction<Scalar>* coeff = HERMES_ONE,
+    DefaultJacobianDiffusion(int i = 0, int j = 0, Hermes1DFunction<Scalar>* coeff = HERMES_ONE, 
+                             Hermes::vector<std::string> areas, 
                              SymFlag sym = HERMES_NONSYM, GeomType gt = HERMES_PLANAR);
 
 
 The pair of indices 'i' and 'j' identifies a block in the Jacobian matrix (for systems of 
 equations). For a single equation it is i = j = 0. 
 
+The parameter 'coeff' can be a constant, cubic spline, or a general nonlinear function 
+of the solution $u$. HERMES_ONE means constant 1.0.
+
 The parameter 'area' identifies 
 the material marker of elements to which the weak form will be assigned. 
 HERMES_ANY means to any material marker.
-
-The parameter 'coeff' can be a constant, cubic spline, or a general nonlinear function 
-of the solution $u$. HERMES_ONE means constant 1.0.
 
 SymFlag is the symmetry flag. 
 If SymFlag sym == HERMES_NONSYM, then Hermes 
@@ -251,13 +252,13 @@ is copied to the symmetric position s, r. If sym == HERMES_ANTISYM, the value is
 with a minus sign. 
 
 The GeomType parameter tells Hermes whether the form 
-is planar (HERMES_PLANAR), axisymmetrix with respect to the x-axis (HERMES_AXISYM_X), 
-or axisymmetrix with respect to the y-axis (HERMES_AXISYM_Y).
+is planar (HERMES_PLANAR), axisymmetric with respect to the x-axis (HERMES_AXISYM_X), 
+or axisymmetric with respect to the y-axis (HERMES_AXISYM_Y).
 
-The form can be linked to multiple material markers::
+The form can be linked to multiple material markers at once::
 
-    DefaultJacobianDiffusion(int i, int j, Hermes::vector<std::string> areas,
-                             Hermes1DFunction<Scalar>* coeff = HERMES_ONE,
+    DefaultJacobianDiffusion(int i, int j, Hermes1DFunction<Scalar>* coeff = HERMES_ONE,
+                             Hermes::vector<std::string> areas,
                              SymFlag sym = HERMES_NONSYM, GeomType gt = HERMES_PLANAR);
 
 Here, Hermes::vector is just a std::vector equipped with additional constructors for
@@ -272,7 +273,7 @@ Similarly, the line
 
 ::
 
-    add_vector_form(new DefaultResidualDiffusion<double>(0, marker_al, lambda_al));
+    add_vector_form(new DefaultResidualDiffusion<double>(0, lambda_al, marker_al));
 
 adds to the residual weak form the integral
 
@@ -285,11 +286,9 @@ where $u$ is the approximate solution and $v$ a test function.
 Default volumetric vector form
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-The last default weak form used in the CustomWeakFormPoisson class above is
+The last default weak form used in the CustomWeakFormPoisson class above is::
 
-::
-
-    add_vector_form(new DefaultVectorFormVol<double>(0, HERMES_ANY, c));
+    add_vector_form(new DefaultVectorFormVol<double>(0, c));
 
 It adds to the residual weak form the integral
 
@@ -566,6 +565,5 @@ HERMES_FN_VAL_0 stands for the function value of solution component 0
 HERMES_FN_VAL_1 would mean the function value of the second solution component
 (relevant for vector-valued Hcurl or Hdiv elements only), 
 HERMES_FN_DX_0 means the x-derivative of the first solution component, etc.
-
 
 

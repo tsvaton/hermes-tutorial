@@ -28,6 +28,7 @@ axisymmetric 3D problems.
    A-linear/08-system
    A-linear/filters
    A-linear/09-axisym
+   A-linear/defining_custom_weak_forms.rst
 
 
 

@@ -1,5 +1,5 @@
-Essential and Natural Boundary Conditions
------------------------------------------
+Handling Essential and Natural Boundary Conditions
+--------------------------------------------------
 
 Hermes distinguishes between **essential** and **natural** boundary conditions. 
 The former type eliminates degrees of freedom from the domain's boundary
