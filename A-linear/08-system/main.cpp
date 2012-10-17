@@ -46,13 +46,13 @@ int main(int argc, char* argv[])
   if (USE_XML_FORMAT == true)
   {
     MeshReaderH2DXML mloader;  
-    Hermes::Mixins::Loggable::Static::info("Reading mesh in XML format.");
+    Hermes::Mixins::Loggable::static_info("Reading mesh in XML format.");
     mloader.load("domain.xml", &mesh);
   }
   else 
   {
     MeshReaderH2D mloader;
-    Hermes::Mixins::Loggable::Static::info("Reading mesh in original format.");
+    Hermes::Mixins::Loggable::static_info("Reading mesh in original format.");
     mloader.load("domain.mesh", &mesh);
   }
 
@@ -71,7 +71,7 @@ int main(int argc, char* argv[])
   H1Space<double> u1_space(&mesh, &bcs, P_INIT);
   H1Space<double> u2_space(&mesh, &bcs, P_INIT);
   int ndof = Space<double>::get_num_dofs(Hermes::vector<const Space<double> *>(&u1_space, &u2_space));
-  Hermes::Mixins::Loggable::Static::info("ndof = %d", ndof);
+  Hermes::Mixins::Loggable::static_info("ndof = %d", ndof);
 
   // Initialize the weak formulation.
   CustomWeakFormLinearElasticity wf(E, nu, rho*g1, "Top", f0, f1);

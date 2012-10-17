@@ -53,7 +53,7 @@ int main(int argc, char* argv[])
   bool extrapolate_der_right = true;
   CubicSpline lambda(lambda_pts, lambda_val, bc_left, bc_right, first_der_left, first_der_right,
                      extrapolate_der_left, extrapolate_der_right);
-  Hermes::Mixins::Loggable::Static::info("Saving cubic spline into a Pylab file spline.dat.");
+  Hermes::Mixins::Loggable::static_info("Saving cubic spline into a Pylab file spline.dat.");
   // The interval of definition of the spline will be 
   // extended by "interval_extension" on both sides.
   double interval_extension = 3.0; 
@@ -75,7 +75,7 @@ int main(int argc, char* argv[])
   // Create an H1 space with default shapeset.
   H1Space<double> space(&mesh, &bcs, P_INIT);
   int ndof = space.get_num_dofs();
-  Hermes::Mixins::Loggable::Static::info("ndof: %d", ndof);
+  Hermes::Mixins::Loggable::static_info("ndof: %d", ndof);
 
   // Initialize the weak formulation.
   Hermes2DFunction<double> src(-heat_src);
@@ -88,7 +88,7 @@ int main(int argc, char* argv[])
   // coefficient vector for the Newton's method.
   // NOTE: If you want to start from the zero vector, just define 
   // coeff_vec to be a vector of ndof zeros (no projection is needed).
-  Hermes::Mixins::Loggable::Static::info("Projecting to obtain initial vector for the Newton's method.");
+  Hermes::Mixins::Loggable::static_info("Projecting to obtain initial vector for the Newton's method.");
   double* coeff_vec = new double[ndof];
   CustomInitialCondition init_sln(&mesh);
   OGProjection<double> ogProjection; ogProjection.project_global(&space, &init_sln, coeff_vec); 

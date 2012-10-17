@@ -38,13 +38,13 @@ int main(int argc, char* argv[])
   if (USE_XML_FORMAT == true)
   {
     MeshReaderH2DXML mloader;  
-    Hermes::Mixins::Loggable::Static::info("Reading mesh in XML format.");
+    Hermes::Mixins::Loggable::static_info("Reading mesh in XML format.");
     mloader.load("domain.xml", &mesh);
   }
   else 
   {
     MeshReaderH2D mloader;
-    Hermes::Mixins::Loggable::Static::info("Reading mesh in original format.");
+    Hermes::Mixins::Loggable::static_info("Reading mesh in original format.");
     mloader.load("domain.mesh", &mesh);
   }
 
@@ -58,7 +58,7 @@ int main(int argc, char* argv[])
   // Create an H1 space with default shapeset.
   H1Space<double> space(&mesh, &bcs, P_INIT);
   int ndof = space.get_num_dofs();
-  Hermes::Mixins::Loggable::Static::info("ndof = %d", ndof);
+  Hermes::Mixins::Loggable::static_info("ndof = %d", ndof);
 
   // Initialize the weak formulation.
   CustomWeakFormGeneral wf("Horizontal");
@@ -94,7 +94,7 @@ int main(int argc, char* argv[])
   oview.show(&space);
 
   // Print timing information.
-  Hermes::Mixins::Loggable::Static::info("Total running time: %g s", cpu_time.accumulated());
+  Hermes::Mixins::Loggable::static_info("Total running time: %g s", cpu_time.accumulated());
 
   // Wait for all views to be closed.
   View::wait();

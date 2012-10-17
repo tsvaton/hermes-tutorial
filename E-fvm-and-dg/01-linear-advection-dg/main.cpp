@@ -80,10 +80,10 @@ int main(int argc, char* args[])
     // Initialize linear solver.
     Hermes::Hermes2D::LinearSolver<double> linear_solver(&dp_l2);
 
-    Hermes::Mixins::Loggable::Static::info("Assembling Discontinuous Galerkin (nelem: %d, ndof: %d).", mesh.get_num_active_elements(), space_l2.get_num_dofs());
+    Hermes::Mixins::Loggable::static_info("Assembling Discontinuous Galerkin (nelem: %d, ndof: %d).", mesh.get_num_active_elements(), space_l2.get_num_dofs());
 
     // Solve the linear system. If successful, obtain the solution.
-    Hermes::Mixins::Loggable::Static::info("Solving Discontinuous Galerkin.");
+    Hermes::Mixins::Loggable::static_info("Solving Discontinuous Galerkin.");
     try
     {
       linear_solver.solve();
@@ -125,13 +125,13 @@ int main(int argc, char* args[])
     // Initialize the FE problem.
     DiscreteProblemLinear<double> dp_h1(&wf_h1, &space_h1);
 
-    Hermes::Mixins::Loggable::Static::info("Assembling Continuous FEM (nelem: %d, ndof: %d).", mesh.get_num_active_elements(), space_h1.get_num_dofs());
+    Hermes::Mixins::Loggable::static_info("Assembling Continuous FEM (nelem: %d, ndof: %d).", mesh.get_num_active_elements(), space_h1.get_num_dofs());
 
     // Initialize linear solver.
     Hermes::Hermes2D::LinearSolver<double> linear_solver(&dp_h1);
 
     // Solve the linear system. If successful, obtain the solution.
-    Hermes::Mixins::Loggable::Static::info("Solving Continuous FEM.");
+    Hermes::Mixins::Loggable::static_info("Solving Continuous FEM.");
     try
     {
       linear_solver.solve();

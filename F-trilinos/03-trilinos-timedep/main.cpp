@@ -83,7 +83,7 @@ int main(int argc, char* argv[])
   // Create an H1 space with default shapeset.
   H1Space<double> space(&mesh, &bcs, P_INIT);
   int ndof = Space<double>::get_num_dofs(&space);
-  Hermes::Mixins::Loggable::Static::info("ndof: %d", ndof);
+  Hermes::Mixins::Loggable::static_info("ndof: %d", ndof);
 
   // Define constant initial condition. 
   ConstantSolution<double> t_prev_time(&mesh, TEMP_INIT);
@@ -97,12 +97,12 @@ int main(int argc, char* argv[])
 
   // Project the function "t_prev_time" on the FE space 
   // in order to obtain initial vector for NOX. 
-  Hermes::Mixins::Loggable::Static::info("Projecting initial solution on the FE mesh.");
+  Hermes::Mixins::Loggable::static_info("Projecting initial solution on the FE mesh.");
   double* coeff_vec = new double[ndof];
   OGProjection<double> ogProjection; ogProjection.project_global(&space, &t_prev_time, coeff_vec);
 
   // Initialize the NOX solver.
-  Hermes::Mixins::Loggable::Static::info("Initializing NOX.");
+  Hermes::Mixins::Loggable::static_info("Initializing NOX.");
   NewtonSolverNOX<double> solver_nox(&dp);
   solver_nox.set_output_flags(message_type);
 
@@ -131,9 +131,9 @@ int main(int argc, char* argv[])
   double total_time = 0.0;
   for (int ts = 1; total_time <= 2000.0; ts++)
   {
-    Hermes::Mixins::Loggable::Static::info("---- Time step %d, t = %g s", ts, total_time += TAU);
+    Hermes::Mixins::Loggable::static_info("---- Time step %d, t = %g s", ts, total_time += TAU);
 
-    Hermes::Mixins::Loggable::Static::info("Assembling by DiscreteProblem, solving by NOX.");
+    Hermes::Mixins::Loggable::static_info("Assembling by DiscreteProblem, solving by NOX.");
     try
     {
       solver_nox.solve(coeff_vec);
@@ -149,9 +149,9 @@ int main(int argc, char* argv[])
     // Show the new solution.
     Tview.show(&t_prev_time);
 
-    Hermes::Mixins::Loggable::Static::info("Number of nonlin iterations: %d (norm of residual: %g)", 
+    Hermes::Mixins::Loggable::static_info("Number of nonlin iterations: %d (norm of residual: %g)", 
       solver_nox.get_num_iters(), solver_nox.get_residual());
-    Hermes::Mixins::Loggable::Static::info("Total number of iterations in linsolver: %d (achieved tolerance in the last step: %g)", 
+    Hermes::Mixins::Loggable::static_info("Total number of iterations in linsolver: %d (achieved tolerance in the last step: %g)", 
       solver_nox.get_num_lin_iters(), solver_nox.get_achieved_tol());
   }
 

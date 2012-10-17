@@ -55,7 +55,7 @@ int main(int argc, char* argv[])
   // Create an H1 space with default shapeset.
   H1Space<double> space(&mesh, &bcs, P_INIT);
   int ndof = space.get_num_dofs();
-  Hermes::Mixins::Loggable::Static::info("ndof: %d", ndof);
+  Hermes::Mixins::Loggable::static_info("ndof: %d", ndof);
 
   // Initialize the weak formulation
   CustomNonlinearity lambda(alpha);
@@ -69,7 +69,7 @@ int main(int argc, char* argv[])
   // coefficient vector for the Newton's method.
   // NOTE: If you want to start from the zero vector, just define 
   // coeff_vec to be a vector of ndof zeros (no projection is needed).
-  Hermes::Mixins::Loggable::Static::info("Projecting to obtain initial vector for the Newton's method.");
+  Hermes::Mixins::Loggable::static_info("Projecting to obtain initial vector for the Newton's method.");
   double* coeff_vec = new double[ndof];
   CustomInitialCondition init_sln(&mesh);
   OGProjection<double> ogProjection; ogProjection.project_global(&space, &init_sln, coeff_vec); 

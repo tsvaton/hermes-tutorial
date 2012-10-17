@@ -76,7 +76,7 @@ int main(int argc, char* argv[])
   // Create an H1 space with default shapeset.
   H1Space<double> space(&mesh, &bcs, P_INIT);
   int ndof = space.get_num_dofs();
-  Hermes::Mixins::Loggable::Static::info("ndof = %d", ndof);
+  Hermes::Mixins::Loggable::static_info("ndof = %d", ndof);
  
   // Initialize the FE problem.
   DiscreteProblem<double> dp(&wf, &space);
@@ -93,7 +93,7 @@ int main(int argc, char* argv[])
   int ts = 1;
   do 
   {
-    Hermes::Mixins::Loggable::Static::info("---- Time step %d, time %3.5f s", ts, current_time);
+    Hermes::Mixins::Loggable::static_info("---- Time step %d, time %3.5f s", ts, current_time);
 
     // Perform Newton's iteration.
     try

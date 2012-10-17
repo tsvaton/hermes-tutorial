@@ -90,9 +90,9 @@ int main(int argc, char* argv[])
   // Create an H1 space with default shapeset.
   H1Space<double> space(&mesh, &bcs, P_INIT);
   int ndof = Space<double>::get_num_dofs(&space);
-  Hermes::Mixins::Loggable::Static::info("ndof: %d", ndof);
+  Hermes::Mixins::Loggable::static_info("ndof: %d", ndof);
 
-  Hermes::Mixins::Loggable::Static::info("Assembling by DiscreteProblem, solving by Umfpack:");
+  Hermes::Mixins::Loggable::static_info("Assembling by DiscreteProblem, solving by Umfpack:");
 
   // Time measurement.
   cpu_time.tick();
@@ -134,13 +134,13 @@ int main(int argc, char* argv[])
   // Calculate error.
   CustomExactSolution ex(&mesh);
   double rel_err_1 = Global<double>::calc_rel_error(&sln1, &ex, HERMES_H1_NORM) * 100;
-  Hermes::Mixins::Loggable::Static::info("Solution 1 :  exact H1 error: %g%% (time %g s)", rel_err_1, time1);
+  Hermes::Mixins::Loggable::static_info("Solution 1 :  exact H1 error: %g%% (time %g s)", rel_err_1, time1);
 
   // TRILINOS PART:
 
   // Project the initial condition to obtain the initial
   // coefficient vector.
-  Hermes::Mixins::Loggable::Static::info("Projecting to obtain initial vector for the Newton's method.");
+  Hermes::Mixins::Loggable::static_info("Projecting to obtain initial vector for the Newton's method.");
   double* coeff_vec = new double[ndof];
   ZeroSolution<double> sln_tmp(&mesh);
   OGProjection<double> ogProjection; ogProjection.project_global(&space, &sln_tmp, coeff_vec);
@@ -155,7 +155,7 @@ int main(int argc, char* argv[])
   DiscreteProblem<double> dp2(&wf2, &space);
 
   // Initialize the NOX solver with the vector "coeff_vec".
-  Hermes::Mixins::Loggable::Static::info("Initializing NOX.");
+  Hermes::Mixins::Loggable::static_info("Initializing NOX.");
   NewtonSolverNOX<double> solver_nox(&dp2);
   solver_nox.set_output_flags(message_type);
 
@@ -176,7 +176,7 @@ int main(int argc, char* argv[])
   }
 
   // Solve the nonlinear problem using NOX.
-  Hermes::Mixins::Loggable::Static::info("Assembling by DiscreteProblem, solving by NOX.");
+  Hermes::Mixins::Loggable::static_info("Assembling by DiscreteProblem, solving by NOX.");
   Solution<double> sln2;
   try
   {
@@ -189,9 +189,9 @@ int main(int argc, char* argv[])
   }
 
   Solution<double>::vector_to_solution(solver_nox.get_sln_vector(), &space, &sln2);
-  Hermes::Mixins::Loggable::Static::info("Number of nonlin iterations: %d (norm of residual: %g)", 
+  Hermes::Mixins::Loggable::static_info("Number of nonlin iterations: %d (norm of residual: %g)", 
         solver_nox.get_num_iters(), solver_nox.get_residual());
-  Hermes::Mixins::Loggable::Static::info("Total number of iterations in linsolver: %d (achieved tolerance in the last step: %g)", 
+  Hermes::Mixins::Loggable::static_info("Total number of iterations in linsolver: %d (achieved tolerance in the last step: %g)", 
         solver_nox.get_num_lin_iters(), solver_nox.get_achieved_tol());
 
   // CPU time needed by NOX.
@@ -199,7 +199,7 @@ int main(int argc, char* argv[])
 
   // Calculate error.
   double rel_err_2 = Global<double>::calc_rel_error(&sln2, &ex, HERMES_H1_NORM) * 100;
-  Hermes::Mixins::Loggable::Static::info("Solution 2 (NOX): exact H1 error: %g%% (time %g + %g = %g [s])", rel_err_2, proj_time, time2, proj_time+time2);
+  Hermes::Mixins::Loggable::static_info("Solution 2 (NOX): exact H1 error: %g%% (time %g + %g = %g [s])", rel_err_2, proj_time, time2, proj_time+time2);
 
   // Show NOX solution.
   ScalarView view2("Solution 2", new WinGeom(510, 0, 500, 400));

@@ -86,7 +86,7 @@ int main(int argc, char* argv[])
   bool extrapolate_der_right = true;
   CubicSpline lambda(lambda_pts, lambda_val, bc_left, bc_right, first_der_left, first_der_right,
                      extrapolate_der_left, extrapolate_der_right);
-  Hermes::Mixins::Loggable::Static::info("Saving cubic spline into a Pylab file spline.dat.");
+  Hermes::Mixins::Loggable::static_info("Saving cubic spline into a Pylab file spline.dat.");
   // The interval of definition of the spline will be 
   // extended by "interval_extension" on both sides.
   double interval_extension = 3.0; 
@@ -135,15 +135,15 @@ int main(int argc, char* argv[])
 
   // Project the initial condition on the FE space to obtain initial
   // coefficient vector for the Newton's method.
-  Hermes::Mixins::Loggable::Static::info("Projecting initial condition to obtain initial vector on the coarse mesh.");
+  Hermes::Mixins::Loggable::static_info("Projecting initial condition to obtain initial vector on the coarse mesh.");
   double* coeff_vec_coarse = new double[space.get_num_dofs()];
   InitialSolutionHeatTransfer init_sln(&mesh);
   OGProjection<double> ogProjection; ogProjection.project_global(&space, &init_sln, coeff_vec_coarse);
 
   // Initialize Newton solver on coarse mesh.
-  Hermes::Mixins::Loggable::Static::info("Solving on coarse mesh:");
+  Hermes::Mixins::Loggable::static_info("Solving on coarse mesh:");
   NewtonSolver<double> newton_coarse(&dp_coarse);
-  newton_coarse.set_verbose_output(Hermes::Mixins::Loggable::Static::info);
+  newton_coarse.set_verbose_output(Hermes::Mixins::Loggable::static_info);
 
   // Perform initial Newton's iteration on coarse mesh, to obtain 
   // good initial guess for the Newton's method on the fine mesh.
@@ -164,14 +164,14 @@ int main(int argc, char* argv[])
   DiscreteProblem<double> dp(&wf, &space);
   delete [] coeff_vec_coarse;
   NewtonSolver<double> newton(&dp);
-  newton.set_verbose_output(Hermes::Mixins::Loggable::Static::info);
+  newton.set_verbose_output(Hermes::Mixins::Loggable::static_info);
 
     
   // Adaptivity loop.
   int as = 1; bool done = false;
   do
   {
-    Hermes::Mixins::Loggable::Static::info("---- Adaptivity step %d:", as);
+    Hermes::Mixins::Loggable::static_info("---- Adaptivity step %d:", as);
 
     // Construct globally refined reference mesh and setup reference space.
     Space<double>* ref_space = Space<double>::construct_refined_space(&space);
@@ -183,18 +183,18 @@ int main(int argc, char* argv[])
     if (as == 1)
     {
       // In the first step, project the coarse mesh solution.
-      Hermes::Mixins::Loggable::Static::info("Projecting coarse mesh solution to obtain initial vector on new fine mesh.");
+      Hermes::Mixins::Loggable::static_info("Projecting coarse mesh solution to obtain initial vector on new fine mesh.");
       OGProjection<double> ogProjection; ogProjection.project_global(ref_space, &sln, coeff_vec);
     }
     else
     {
       // In all other steps, project the previous fine mesh solution.
-      Hermes::Mixins::Loggable::Static::info("Projecting previous fine mesh solution to obtain initial vector on new fine mesh.");
+      Hermes::Mixins::Loggable::static_info("Projecting previous fine mesh solution to obtain initial vector on new fine mesh.");
       OGProjection<double> ogProjection; ogProjection.project_global(ref_space, &ref_sln, coeff_vec);
     }
 
     // Initialize Newton solver on fine mesh.
-    Hermes::Mixins::Loggable::Static::info("Solving on fine mesh:");
+    Hermes::Mixins::Loggable::static_info("Solving on fine mesh:");
     // Perform Newton's iteration.
     newton.set_space(ref_space);
     try
@@ -211,16 +211,16 @@ int main(int argc, char* argv[])
     Solution<double>::vector_to_solution(newton.get_sln_vector(), ref_space, &ref_sln);
 
     // Project the fine mesh solution on the coarse mesh.
-    Hermes::Mixins::Loggable::Static::info("Projecting reference solution on new coarse mesh for error calculation.");
+    Hermes::Mixins::Loggable::static_info("Projecting reference solution on new coarse mesh for error calculation.");
     OGProjection<double> ogProjection; ogProjection.project_global(&space, &ref_sln, &sln);
 
     // Calculate element errors and total error estimate.
-    Hermes::Mixins::Loggable::Static::info("Calculating error estimate.");
+    Hermes::Mixins::Loggable::static_info("Calculating error estimate.");
     Adapt<double>* adaptivity = new Adapt<double>(&space);
     double err_est_rel = adaptivity->calc_err_est(&sln, &ref_sln) * 100;
 
     // Report results.
-    Hermes::Mixins::Loggable::Static::info("ndof_coarse: %d, ndof_fine: %d, err_est_rel: %g%%",
+    Hermes::Mixins::Loggable::static_info("ndof_coarse: %d, ndof_fine: %d, err_est_rel: %g%%",
       Space<double>::get_num_dofs(&space), Space<double>::get_num_dofs(ref_space), err_est_rel);
 
     // Time measurement.
@@ -240,7 +240,7 @@ int main(int argc, char* argv[])
     if (err_est_rel < ERR_STOP) done = true;
     else
     {
-      Hermes::Mixins::Loggable::Static::info("Adapting the coarse mesh.");
+      Hermes::Mixins::Loggable::static_info("Adapting the coarse mesh.");
       done = adaptivity->adapt(&selector, THRESHOLD, STRATEGY, MESH_REGULARITY);
 
       if (Space<double>::get_num_dofs(&space) >= NDOF_STOP)
@@ -258,7 +258,7 @@ int main(int argc, char* argv[])
   }
   while (done == false);
 
-  Hermes::Mixins::Loggable::Static::info("Total running time: %g s", cpu_time.accumulated());
+  Hermes::Mixins::Loggable::static_info("Total running time: %g s", cpu_time.accumulated());
 
   // Show the reference solution - the final result.
   sview.set_title("Fine mesh solution");

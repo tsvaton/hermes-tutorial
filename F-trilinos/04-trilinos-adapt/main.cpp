@@ -148,14 +148,14 @@ int main(int argc, char* argv[])
   int as = 1; bool done = false;
   do
   {
-    Hermes::Mixins::Loggable::Static::info("---- Adaptivity step %d:", as);
+    Hermes::Mixins::Loggable::static_info("---- Adaptivity step %d:", as);
 
     // Construct globally refined reference mesh and setup reference space.
     Space<double>* ref_space = Space<double>::construct_refined_space(&space);
     int ndof_ref = Space<double>::get_num_dofs(ref_space);
 
     // Initialize reference problem.
-    Hermes::Mixins::Loggable::Static::info("Solving on reference mesh.");
+    Hermes::Mixins::Loggable::static_info("Solving on reference mesh.");
     DiscreteProblem<double> dp(&wf, ref_space);
 
     // Time measurement.
@@ -190,7 +190,7 @@ int main(int argc, char* argv[])
 
     Solution<double> sln, ref_sln;
 
-    Hermes::Mixins::Loggable::Static::info("Assembling by DiscreteProblem, solving by NOX.");
+    Hermes::Mixins::Loggable::static_info("Assembling by DiscreteProblem, solving by NOX.");
     try
     {
       solver.solve(coeff_vec);
@@ -202,12 +202,12 @@ int main(int argc, char* argv[])
     }
 
     Solution<double>::vector_to_solution(solver.get_sln_vector(), ref_space, &ref_sln);
-    Hermes::Mixins::Loggable::Static::info("Number of nonlin iterations: %d (norm of residual: %g)", 
+    Hermes::Mixins::Loggable::static_info("Number of nonlin iterations: %d (norm of residual: %g)", 
       solver.get_num_iters(), solver.get_residual());
-    Hermes::Mixins::Loggable::Static::info("Total number of iterations in linsolver: %d (achieved tolerance in the last step: %g)", 
+    Hermes::Mixins::Loggable::static_info("Total number of iterations in linsolver: %d (achieved tolerance in the last step: %g)", 
       solver.get_num_lin_iters(), solver.get_achieved_tol());
 
-    Hermes::Mixins::Loggable::Static::info("Projecting reference solution on coarse mesh.");
+    Hermes::Mixins::Loggable::static_info("Projecting reference solution on coarse mesh.");
     OGProjection<double> ogProjection; ogProjection.project_global(&space, &ref_sln, &sln);
 
     // View the coarse mesh solution and polynomial orders.
@@ -216,7 +216,7 @@ int main(int argc, char* argv[])
     oviewa.show(ref_space);
 
     // Calculate element errors and total error estimate.
-    Hermes::Mixins::Loggable::Static::info("Calculating error estimate and exact error.");
+    Hermes::Mixins::Loggable::static_info("Calculating error estimate and exact error.");
     Adapt<double>* adaptivity = new Adapt<double>(&space);
     double err_est_rel = adaptivity->calc_err_est(&sln, &ref_sln) * 100;
 
@@ -226,9 +226,9 @@ int main(int argc, char* argv[])
     double err_exact_rel = adaptivity->calc_err_exact(&sln, &exact, solutions_for_adapt) * 100;
 
     // Report results.
-    Hermes::Mixins::Loggable::Static::info("ndof_coarse: %d, ndof_fine: %d",
+    Hermes::Mixins::Loggable::static_info("ndof_coarse: %d, ndof_fine: %d",
       Space<double>::get_num_dofs(&space), Space<double>::get_num_dofs(ref_space));
-    Hermes::Mixins::Loggable::Static::info("err_est_rel: %g%%, err_exact_rel: %g%%", err_est_rel, err_exact_rel);
+    Hermes::Mixins::Loggable::static_info("err_est_rel: %g%%, err_exact_rel: %g%%", err_est_rel, err_exact_rel);
 
     // Time measurement.
     cpu_time.tick();
@@ -247,7 +247,7 @@ int main(int argc, char* argv[])
     if (err_est_rel < ERR_STOP) done = true;
     else
     {
-      Hermes::Mixins::Loggable::Static::info("Adapting coarse mesh.");
+      Hermes::Mixins::Loggable::static_info("Adapting coarse mesh.");
       done = adaptivity->adapt(&selector, THRESHOLD, STRATEGY, MESH_REGULARITY);
 
       // Increase the counter of adaptivity steps.
@@ -263,7 +263,7 @@ int main(int argc, char* argv[])
   }
   while (done == false);
 
-  Hermes::Mixins::Loggable::Static::info("Total running time: %g s", cpu_time.accumulated());
+  Hermes::Mixins::Loggable::static_info("Total running time: %g s", cpu_time.accumulated());
 
   // Wait for all views to be closed.
   View::wait();

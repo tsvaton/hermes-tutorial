@@ -50,7 +50,7 @@ int main(int argc, char* argv[])
   // Create an H1 space with default shapeset.
   H1Space<double> space(&mesh, &bcs, P_INIT);
   int ndof = Space<double>::get_num_dofs(&space);
-  Hermes::Mixins::Loggable::Static::info("ndof = %d", ndof);
+  Hermes::Mixins::Loggable::static_info("ndof = %d", ndof);
 
   // Initialize the weak formulation.
   WeakFormsH1::DefaultWeakFormPoisson<double> wf(HERMES_ANY, 

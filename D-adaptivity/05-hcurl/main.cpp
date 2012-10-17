@@ -94,7 +94,7 @@ int main(int argc, char* argv[])
   // Create an Hcurl space with default shapeset.
   HcurlSpace<std::complex<double> > space(&mesh, &bcs, P_INIT);
   int ndof = space.get_num_dofs();
-  Hermes::Mixins::Loggable::Static::info("ndof = %d", ndof);
+  Hermes::Mixins::Loggable::static_info("ndof = %d", ndof);
 
   // Initialize the weak formulation.
   CustomWeakForm wf(MU_R, KAPPA);
@@ -126,7 +126,7 @@ int main(int argc, char* argv[])
   int as = 1; bool done = false;
   do
   {
-    Hermes::Mixins::Loggable::Static::info("---- Adaptivity step %d:", as);
+    Hermes::Mixins::Loggable::static_info("---- Adaptivity step %d:", as);
 
     // Construct globally refined reference mesh and setup reference space.
     Space<std::complex<double> >* ref_space = Space<std::complex<double> >::construct_refined_space(&space);
@@ -157,7 +157,7 @@ int main(int argc, char* argv[])
     cpu_time.tick();
 
     // Project the fine mesh solution onto the coarse mesh.
-    Hermes::Mixins::Loggable::Static::info("Projecting reference solution on coarse mesh.");
+    Hermes::Mixins::Loggable::static_info("Projecting reference solution on coarse mesh.");
     OGProjection<std::complex<double> > ogProjection;
     ogProjection.project_global(&space, &ref_sln, &sln);
 
@@ -168,7 +168,7 @@ int main(int argc, char* argv[])
     o_view.show(&space);
 
     // Calculate element errors and total error estimate.
-    Hermes::Mixins::Loggable::Static::info("Calculating error estimate and exact error.");
+    Hermes::Mixins::Loggable::static_info("Calculating error estimate and exact error.");
     Adapt<std::complex<double> >* adaptivity = new Adapt<std::complex<double> >(&space);
     double err_est_rel = adaptivity->calc_err_est(&sln, &ref_sln) * 100;
 
@@ -177,9 +177,9 @@ int main(int argc, char* argv[])
     double err_exact_rel = adaptivity->calc_err_exact(&sln, &sln_exact, solutions_for_adapt) * 100;
 
     // Report results.
-    Hermes::Mixins::Loggable::Static::info("ndof_coarse: %d, ndof_fine: %d",
+    Hermes::Mixins::Loggable::static_info("ndof_coarse: %d, ndof_fine: %d",
       space.get_num_dofs(), ref_space->get_num_dofs());
-    Hermes::Mixins::Loggable::Static::info("err_est_rel: %g%%, err_exact_rel: %g%%", err_est_rel, err_exact_rel);
+    Hermes::Mixins::Loggable::static_info("err_est_rel: %g%%, err_exact_rel: %g%%", err_est_rel, err_exact_rel);
 
     // Time measurement.
     cpu_time.tick();
@@ -198,7 +198,7 @@ int main(int argc, char* argv[])
     if (err_est_rel < ERR_STOP) done = true;
     else
     {
-      Hermes::Mixins::Loggable::Static::info("Adapting coarse mesh.");
+      Hermes::Mixins::Loggable::static_info("Adapting coarse mesh.");
       done = adaptivity->adapt(&selector, THRESHOLD, STRATEGY, MESH_REGULARITY);
 
       // Increase the counter of performed adaptivity steps.
@@ -212,7 +212,7 @@ int main(int argc, char* argv[])
   }
   while (done == false);
 
-  Hermes::Mixins::Loggable::Static::info("Total running time: %g s", cpu_time.accumulated());
+  Hermes::Mixins::Loggable::static_info("Total running time: %g s", cpu_time.accumulated());
 
   // Show the reference solution - the final result.
   v_view.set_title("Fine mesh solution (magnitude)");
@@ -225,7 +225,7 @@ int main(int argc, char* argv[])
   Views::Linearizer lin;
   bool mode_3D = true;
   lin.save_solution_vtk(&ref_limited_magn, "sln.vtk", "Magnitude of E", mode_3D);
-  Hermes::Mixins::Loggable::Static::info("Solution in VTK format saved to file %s.", "sln.vtk");
+  Hermes::Mixins::Loggable::static_info("Solution in VTK format saved to file %s.", "sln.vtk");
 
   // Wait for all views to be closed.
   Views::View::wait();

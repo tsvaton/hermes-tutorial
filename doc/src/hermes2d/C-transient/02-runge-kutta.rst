@@ -163,7 +163,7 @@ The time-stepping loop has the form::
 			catch(std::exception& e)
       {
 				std::cout << e.what();
-				Hermes::Mixins::Loggable::Static::info("Runge-Kutta time step failed, try to decrease time step size.");
+				Hermes::Mixins::Loggable::static_info("Runge-Kutta time step failed, try to decrease time step size.");
       }
 
       // Show the new time level solution.

@@ -47,13 +47,13 @@ int main(int argc, char* argv[])
   if (USE_XML_FORMAT == true)
   {
     MeshReaderH2DXML mloader;  
-    Hermes::Mixins::Loggable::Static::info("Reading mesh in XML format.");
+    Hermes::Mixins::Loggable::static_info("Reading mesh in XML format.");
     mloader.load("domain.xml", &mesh);
   }
   else 
   {
     MeshReaderH2D mloader;
-    Hermes::Mixins::Loggable::Static::info("Reading mesh in original format.");
+    Hermes::Mixins::Loggable::static_info("Reading mesh in original format.");
     mloader.load("domain.mesh", &mesh);
   }
 
@@ -67,7 +67,7 @@ int main(int argc, char* argv[])
   // Create an H1 space with default shapeset.
   H1Space<double> space(&mesh, &bcs, P_INIT);
   int ndof = space.get_num_dofs();
-  Hermes::Mixins::Loggable::Static::info("ndof = %d", ndof);
+  Hermes::Mixins::Loggable::static_info("ndof = %d", ndof);
 
   // Initialize the weak formulation.
   CustomWeakFormPoissonNewton wf(LAMBDA, ALPHA, T0, "Heat_flux");
@@ -100,12 +100,12 @@ int main(int argc, char* argv[])
     Linearizer lin;
     bool mode_3D = true;
     lin.save_solution_vtk(&sln, "sln.vtk", "Temperature", mode_3D);
-    Hermes::Mixins::Loggable::Static::info("Solution in VTK format saved to file %s.", "sln.vtk");
+    Hermes::Mixins::Loggable::static_info("Solution in VTK format saved to file %s.", "sln.vtk");
 
     // Output mesh and element orders in VTK format.
     Orderizer ord;
     ord.save_orders_vtk(&space, "ord.vtk");
-    Hermes::Mixins::Loggable::Static::info("Element orders in VTK format saved to file %s.", "ord.vtk");
+    Hermes::Mixins::Loggable::static_info("Element orders in VTK format saved to file %s.", "ord.vtk");
   }
 
   // Visualize the solution.
