@@ -34,6 +34,8 @@ project(hermes_tutorial)
   # --- DEPENDENCIES
   #
 	find_package(PTHREAD REQUIRED)
+  find_package(TCMALLOC REQUIRED)
+  include_directories(${TCMALLOC_INCLUDE_DIR})
 
 	if(WITH_TRILINOS)
 		find_package(TRILINOS REQUIRED)
